@@ -10,12 +10,13 @@ dayjs.extend(timezone);
 
 const createAppointment = async (req, res) => {
   try {
-    const { doctorId, date, time, reason } = req.body;
+    const { doctorId, date, time, reason, patientId } = req.body;
     logger.info('Intento de creación de cita', {
       userId: req.user._id,
       doctorId,
       date,
-      time
+      time,
+      patientId
     });
     
     // Validaciones básicas
@@ -40,7 +41,7 @@ const createAppointment = async (req, res) => {
       });
     }
     
-    // Verificar si el usuario es un médico y solo puede agendar citas para sí mismo
+    // Verificar si el usuario es un médico y está intentando crear una cita para otro médico
     if (req.user.constructor.modelName === 'Doctor' && req.user._id.toString() !== doctorId) {
       logger.warn('Médico intentando agendar cita para otro médico', {
         doctorId: req.user._id,
@@ -49,6 +50,20 @@ const createAppointment = async (req, res) => {
       return res.status(403).json({ 
         message: 'Los médicos solo pueden agendar citas para sí mismos',
       });
+    }
+    
+    // Si es un doctor creando una cita, debe especificar para qué paciente
+    let actualPatientId = req.user._id;
+    if (req.user.constructor.modelName === 'Doctor') {
+      if (!patientId) {
+        logger.warn('Doctor intentando crear cita sin especificar paciente', {
+          doctorId: req.user._id
+        });
+        return res.status(400).json({
+          message: 'Debe seleccionar un paciente para la cita'
+        });
+      }
+      actualPatientId = patientId;
     }
 
     // Validar formato de fecha y hora
@@ -80,7 +95,7 @@ const createAppointment = async (req, res) => {
     }
 
     const appointment = new Appointment({
-      patient: req.user._id,
+      patient: actualPatientId,
       doctor: doctorId,
       date,
       time,
@@ -164,7 +179,43 @@ const updateAppointment = async (req, res) => {
     if (date) appointment.date = date;
     if (time) appointment.time = time;
     if (reason) appointment.reason = reason.trim();
-    if (status && isDoctor) appointment.status = status;
+    
+    // Solo el doctor puede cambiar el estado de pendiente a confirmado o cancelado
+    if (status && isDoctor) {
+      // Validar las transiciones de estados permitidas
+      if (appointment.status === 'pending' && (status === 'confirmed' || status === 'cancelled')) {
+        appointment.status = status;
+      } else if (appointment.status === 'confirmed') {
+        // Si la cita ya ocurrió, se puede marcar como completada o cancelada
+        const appointmentDate = dayjs(`${appointment.date.toISOString().split('T')[0]}T${appointment.time}`);
+        const now = dayjs();
+        
+        if (now.isAfter(appointmentDate) && (status === 'completed' || status === 'cancelled' || status === 'no-show')) {
+          appointment.status = status;
+          // Si se marca como completada, cancelada o no tomada, se archiva automáticamente
+          if (status === 'completed' || status === 'cancelled' || status === 'no-show') {
+            appointment.isArchived = true;
+          }
+        } else if (!now.isAfter(appointmentDate) && status === 'cancelled') {
+          appointment.status = status;
+        } else {
+          return res.status(400).json({ 
+            message: 'Cambio de estado no permitido',
+            details: 'Las transiciones de estado permitidas son: pendiente → confirmado/cancelado, confirmado → completado/cancelado (después de la fecha)'
+          });
+        }
+      } else {
+        return res.status(400).json({ 
+          message: 'Cambio de estado no permitido',
+          details: 'Las transiciones de estado permitidas son: pendiente → confirmado/cancelado, confirmado → completado/cancelado (después de la fecha)'
+        });
+      }
+    } else if (status && !isDoctor) {
+      return res.status(403).json({ 
+        message: 'Solo el médico puede cambiar el estado de la cita'
+      });
+    }
+    
     if (notes) appointment.notes = notes.trim();
 
     await appointment.save();
@@ -187,7 +238,10 @@ const updateAppointment = async (req, res) => {
 const getAppointments = async (req, res) => {
   try {
     const { status, startDate, endDate } = req.query;
-    const query = {};
+    const query = {
+      // Excluir citas archivadas por defecto
+      isArchived: { $ne: true }
+    };
 
     // Filtrar por rol
     if (req.user.constructor.modelName === 'Doctor') {
@@ -297,10 +351,142 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
+const getArchivedAppointments = async (req, res) => {
+  try {
+    const { patientId } = req.query;
+    const query = { isArchived: true };
+
+    // Filtrar por rol
+    if (req.user.constructor.modelName === 'Doctor') {
+      query.doctor = req.user._id;
+      
+      // Si es doctor y ha solicitado filtrar por paciente
+      if (patientId) {
+        query.patient = patientId;
+      }
+    } else {
+      // Si es paciente, solo puede ver sus propias citas
+      query.patient = req.user._id;
+    }
+
+    const appointments = await Appointment.find(query)
+      .populate(['patient', 'doctor'])
+      .sort({ date: -1, time: -1 }); // Ordenadas desde la más reciente
+
+    res.json(appointments);
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Error al obtener las citas archivadas', 
+      error: error.message 
+    });
+  }
+};
+
+const archiveAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const appointment = await Appointment.findById(id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Cita no encontrada' });
+    }
+
+    // Solo el doctor puede archivar una cita
+    if (req.user.constructor.modelName !== 'Doctor' || appointment.doctor.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'No autorizado para archivar esta cita' });
+    }
+
+    // Solo se pueden archivar las citas completadas, canceladas o no tomadas
+    if (appointment.status !== 'completed' && appointment.status !== 'cancelled' && appointment.status !== 'no-show') {
+      return res.status(400).json({ 
+        message: 'Solo se pueden archivar las citas completadas, canceladas o no tomadas'
+      });
+    }
+
+    appointment.isArchived = true;
+    await appointment.save();
+
+    res.json({
+      message: 'Cita archivada exitosamente',
+      appointment: await appointment.populate(['patient', {
+        path: 'doctor',
+        select: 'name email speciality licenseNumber'
+      }])
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Error al archivar la cita', 
+      details: error.message 
+    });
+  }
+};
+
+// Método para verificar y actualizar automáticamente el estado de las citas pasadas
+const updatePastAppointments = async () => {
+  try {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    // Encontrar todas las citas confirmadas de fechas pasadas que no han sido actualizadas
+    const pastAppointments = await Appointment.find({
+      status: 'confirmed',
+      date: { $lt: yesterday },
+      isArchived: false
+    });
+    
+    for (const appointment of pastAppointments) {
+      // Marcar como completada y archivar
+      appointment.status = 'completed';
+      appointment.isArchived = true;
+      await appointment.save();
+      logger.info(`Cita ID ${appointment._id} actualizada automáticamente a estado completado y archivada`);
+    }
+    
+    return pastAppointments.length;
+  } catch (error) {
+    logger.error('Error al actualizar citas pasadas:', error);
+    return 0;
+  }
+};
+
+// Esta función podría ser llamada por un cron job o al iniciar el servidor
+const initAppointmentStatusScheduler = () => {
+  // Actualizar citas al iniciar
+  updatePastAppointments();
+  
+  // Programar la actualización diaria (por ejemplo, a la 1:00 AM)
+  const millisecondsUntilNextRun = (() => {
+    const now = new Date();
+    const scheduledTime = new Date(now);
+    scheduledTime.setHours(1, 0, 0, 0);
+    
+    if (scheduledTime <= now) {
+      scheduledTime.setDate(scheduledTime.getDate() + 1);
+    }
+    
+    return scheduledTime.getTime() - now.getTime();
+  })();
+  
+  // Programar la primera ejecución
+  setTimeout(() => {
+    updatePastAppointments();
+    
+    // Configurar ejecución diaria después de la primera ejecución
+    setInterval(updatePastAppointments, 24 * 60 * 60 * 1000);
+  }, millisecondsUntilNextRun);
+  
+  logger.info(`Programador de actualización de estados de citas iniciado. Primera ejecución en ${millisecondsUntilNextRun} ms`);
+};
+
 module.exports = {
   createAppointment,
   updateAppointment,
   getAppointments,
   getAppointmentById,
-  cancelAppointment
+  cancelAppointment,
+  getArchivedAppointments,
+  archiveAppointment,
+  updatePastAppointments,
+  initAppointmentStatusScheduler
 };

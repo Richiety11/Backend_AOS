@@ -6,7 +6,9 @@ const {
   updateAppointment,
   getAppointments,
   getAppointmentById,
-  cancelAppointment
+  cancelAppointment,
+  getArchivedAppointments,
+  archiveAppointment
 } = require('../controllers/appointment.controller');
 
 /**
@@ -79,6 +81,31 @@ router.post('/', auth, createAppointment);
  *         description: Lista de citas obtenida exitosamente
  */
 router.get('/', auth, getAppointments);
+
+/**
+ * IMPORTANTE: Las rutas específicas como '/archived' deben venir ANTES de rutas parametrizadas como '/:id'
+ * para evitar que Express interprete 'archived' como un ID. Este es un patrón estándar en Express.
+ * 
+ * @swagger
+ * /appointments/archived:
+ *   get:
+ *     tags:
+ *       - Citas
+ *     summary: Obtener citas archivadas
+ *     description: Obtiene todas las citas archivadas del usuario o médico autenticado
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: patientId
+ *         schema:
+ *           type: string
+ *         description: ID del paciente para filtrar (solo doctores)
+ *     responses:
+ *       200:
+ *         description: Lista de citas archivadas obtenida exitosamente
+ */
+router.get('/archived', auth, getArchivedAppointments);
 
 /**
  * @swagger
@@ -157,5 +184,27 @@ router.put('/:id', auth, updateAppointment);
  *         description: Cita cancelada exitosamente
  */
 router.put('/:id/cancel', auth, cancelAppointment);
+
+/**
+ * @swagger
+ * /appointments/{id}/archive:
+ *   put:
+ *     tags:
+ *       - Citas
+ *     summary: Archivar cita
+ *     description: Archiva una cita completada o cancelada
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Cita archivada exitosamente
+ */
+router.put('/:id/archive', auth, archiveAppointment);
 
 module.exports = router;

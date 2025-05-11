@@ -21,6 +21,9 @@ const appointmentRoutes = require('./routes/appointment.routes');
 const userRoutes = require('./routes/user.routes');
 const doctorRoutes = require('./routes/doctor.routes');
 
+// Importar la función de inicialización del programador de citas
+const { initAppointmentStatusScheduler } = require('./controllers/appointment.controller');
+
 // Inicializar express
 const app = express();
 
@@ -68,7 +71,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use(cors({
   origin: '*', // Permitir solicitudes de cualquier origen para desarrollo
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'cache-control'],
   exposedHeaders: ['Content-Length', 'X-Request-ID'],
   credentials: false, // Desactivar credenciales para evitar problemas con tokens grandes
   maxAge: 86400, // Caché de preflight por 24 horas
@@ -95,6 +98,66 @@ app.use('/api/auth', headerSizeLimit, authRoutes);
 // Rutas principales de autenticación simplificadas (puntos de entrada optimizados)
 app.post('/api/login', headerSizeLimit, simpleAuthController.simpleLogin);
 app.post('/api/register', headerSizeLimit, simpleAuthController.simpleRegister);
+
+// Middleware específico para interceptar y loggear todas las llamadas a /api/users/current
+// Esto es importante para monitorear y depurar problemas con esta ruta crítica
+app.use('/api/users/current', (req, res, next) => {
+  logger.info('Solicitud interceptada en /api/users/current', {
+    method: req.method,
+    headers: {
+      auth: req.headers.authorization ? 'presente' : 'ausente',
+      contentType: req.headers['content-type'],
+      userAgent: req.headers['user-agent']
+    },
+    query: req.query,
+    ip: req.ip
+  });
+  
+  // Si es una solicitud OPTIONS (preflight CORS), responder directamente
+  if (req.method === 'OPTIONS') {
+    logger.debug('Respondiendo a solicitud preflight CORS para /users/current');
+    return res.status(200)
+      .header('Access-Control-Allow-Origin', '*')
+      .header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+      .header('Access-Control-Allow-Headers', 'Authorization, Content-Type, cache-control')
+      .header('Access-Control-Expose-Headers', 'Content-Length, X-Request-ID')
+      .send();
+  }
+  
+  // Para solicitudes normales, continuar al siguiente middleware
+  next();
+});
+
+// Middleware específico para interceptar solicitudes a /api/appointments/archived
+// Esto ayuda a resolver problemas CORS con esta ruta
+app.use('/api/appointments/archived', (req, res, next) => {
+  logger.info('Solicitud interceptada en /api/appointments/archived', {
+    method: req.method,
+    headers: {
+      auth: req.headers.authorization ? 'presente' : 'ausente',
+      contentType: req.headers['content-type'],
+      cacheControl: req.headers['cache-control']
+    },
+    query: req.query,
+    ip: req.ip
+  });
+  
+  // Si es una solicitud OPTIONS (preflight CORS), responder directamente
+  if (req.method === 'OPTIONS') {
+    logger.debug('Respondiendo a solicitud preflight CORS para /appointments/archived');
+    return res.status(200)
+      .header('Access-Control-Allow-Origin', '*')
+      .header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+      .header('Access-Control-Allow-Headers', 'Authorization, Content-Type, cache-control')
+      .header('Access-Control-Expose-Headers', 'Content-Length, X-Request-ID')
+      .send();
+  }
+  
+  // Para solicitudes normales, continuar al siguiente middleware
+  next();
+});
+
+// Registrar el resto de rutas
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/doctors', doctorRoutes);
@@ -129,6 +192,10 @@ mongoose.connect(config.mongodb.uri, {
   logger.info('Conectado exitosamente a MongoDB', {
     database: config.mongodb.uri.split('/').pop()
   });
+  
+  // Iniciar el programador de actualización de estados de citas una vez conectado a la BD
+  initAppointmentStatusScheduler();
+  logger.info('Inicializado el programador de actualización de estados de citas');
 })
 .catch(err => {
   logger.error('Error al conectar a MongoDB', {

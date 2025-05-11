@@ -4,7 +4,15 @@ const { sanitizeInput } = require('../middlewares/security.middleware');
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}, '-password');
+    const { role } = req.query;
+    const query = {};
+    
+    // Solo permitir filtrar por rol si es doctor o admin
+    if (role && (req.user.role === 'doctor' || req.user.role === 'admin')) {
+      query.role = role;
+    }
+    
+    const users = await User.find(query, '-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener usuarios', error: error.message });

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { auth, checkRole } = require('../middlewares/auth.middleware');
 const { getUsers, getUserById, updateUser, deleteUser } = require('../controllers/user.controller');
+const User = require('../models/user.model');
 
 /**
  * @swagger
@@ -34,7 +35,65 @@ const { getUsers, getUserById, updateUser, deleteUser } = require('../controller
  *                   role:
  *                     type: string
  */
-router.get('/', auth, checkRole(['admin']), getUsers);
+// Primero definimos las rutas específicas
+/**
+ * @swagger
+ * /users/current:
+ *   get:
+ *     tags:
+ *       - Usuarios
+ *     summary: Obtener usuario actual
+ *     description: Obtiene la información del usuario autenticado actual
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Usuario actual obtenido exitosamente
+ *       401:
+ *         description: No autorizado
+ */
+router.get('/current', auth, async (req, res) => {
+  try {
+    // La propiedad id puede no estar disponible, usar _id que es más estándar en MongoDB
+    const userId = req.user._id || req.user.id;
+    
+    if (!userId) {
+      return res.status(400).json({ message: 'ID de usuario no disponible en la solicitud' });
+    }
+    
+    console.log(`Buscando usuario con ID: ${userId}`);
+    
+    // Mejorar la búsqueda para manejar tanto usuarios normales como doctores
+    let user = await User.findById(userId).select('-password');
+    
+    if (!user) {
+      // Si no se encuentra como usuario normal, buscar como doctor
+      const Doctor = require('../models/doctor.model');
+      user = await Doctor.findById(userId).select('-password');
+      
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+    }
+    
+    // Añadir logging para depuración
+    console.log(`Usuario encontrado: ${user._id}, rol: ${user.role}`);
+    
+    // Devolver la respuesta en el formato que espera el frontend
+    res.json({ 
+      user,
+      token: req.headers.authorization ? req.headers.authorization.split(' ')[1] : '',
+      refreshToken: ''
+    });
+    
+  } catch (error) {
+    console.error('Error al obtener usuario actual:', error);
+    res.status(500).json({ message: 'Error al obtener usuario actual', error: error.message });
+  }
+});
+
+// Luego definimos la ruta para obtener todos los usuarios
+router.get('/', auth, getUsers);
 
 /**
  * @swagger
@@ -58,7 +117,7 @@ router.get('/', auth, checkRole(['admin']), getUsers);
  *       404:
  *         description: Usuario no encontrado
  */
-router.get('/:id', auth, checkRole(['admin']), getUserById);
+router.get('/:id', auth, getUserById);
 
 /**
  * @swagger
