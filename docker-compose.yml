@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Servicio de MongoDB
+  mongodb:
+    image: mongo:latest
+    container_name: medical_appointments_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=medical_appointments
+
+  # Servicio de Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical_appointments_backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/medical_appointments
+      - JWT_SECRET=your_jwt_secret_key_here
+      - NODE_ENV=development
+      - PORT=3000
+    depends_on:
+      - mongodb
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./logs:/usr/src/app/logs
+
+  # Servicio de Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: medical_appointments_frontend
+    ports:
+      - "3001:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000/api
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
