@@ -1,3 +1,12 @@
+/**
+ * @file appointment.routes.js
+ * @description Define las rutas de API relacionadas con la gestión de citas médicas.
+ * Incluye endpoints para crear, listar, filtrar, actualizar, cancelar y archivar citas.
+ * Implementa controles de acceso y validaciones para asegurar la integridad de los datos
+ * y el cumplimiento de las reglas de negocio relacionadas con la programación de citas.
+ * @version 1.0.0
+ */
+
 const express = require('express');
 const router = express.Router();
 const { auth, checkRole } = require('../middlewares/auth.middleware');

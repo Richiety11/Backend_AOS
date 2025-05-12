@@ -1,3 +1,13 @@
+/**
+ * @file doctor.routes.js
+ * @description Define las rutas de API relacionadas con la gestión de médicos.
+ * Incluye endpoints para listar médicos, filtrar por especialidad, obtener detalles de un médico,
+ * actualizar información, gestionar disponibilidad y eliminar perfiles de médicos.
+ * Implementa controles de acceso basados en roles y proporciona documentación Swagger.
+ * @autor Equipo de Desarrollo
+ * @version 1.0.0
+ */
+
 const express = require('express');
 const router = express.Router();
 const { auth, checkRole } = require('../middlewares/auth.middleware');

@@ -1,16 +1,49 @@
-const Appointment = require('../models/appointment.model');
-const Doctor = require('../models/doctor.model');
+/**
+ * Controlador de citas médicas
+ * 
+ * Gestiona todas las operaciones relacionadas con citas:
+ * - Creación, actualización y cancelación de citas
+ * - Consulta de citas para médicos y pacientes
+ * - Archivado de citas completadas o canceladas
+ * - Actualización automática de estados
+ */
+
+// Modelos de datos
+const Appointment = require('../models/appointment.model'); // Modelo de citas
+const Doctor = require('../models/doctor.model'); // Modelo de médicos
+
+// Biblioteca para manipulación de fechas y horas
 const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+const utc = require('dayjs/plugin/utc'); // Plugin para manejo de UTC
+const timezone = require('dayjs/plugin/timezone'); // Plugin para manejo de zonas horarias
+
+// Utilidad de logging
 const { logger } = require('../config/config');
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+// Configurar plugins de dayjs
+dayjs.extend(utc); // Habilitar manejo de fechas UTC
+dayjs.extend(timezone); // Habilitar manejo de zonas horarias
 
+/**
+ * Crea una nueva cita médica
+ * 
+ * @param {Object} req - Objeto de solicitud Express
+ * @param {Object} req.body - Datos de la cita a crear
+ * @param {string} req.body.doctorId - ID del médico para la cita
+ * @param {string} req.body.date - Fecha de la cita (YYYY-MM-DD)
+ * @param {string} req.body.time - Hora de la cita (HH:MM)
+ * @param {string} req.body.reason - Motivo de la consulta
+ * @param {string} [req.body.patientId] - ID del paciente (requerido si es un médico creando la cita)
+ * @param {Object} req.user - Usuario autenticado (paciente o médico)
+ * @param {Object} res - Objeto de respuesta Express
+ * @returns {Object} Respuesta JSON con la cita creada o mensaje de error
+ */
 const createAppointment = async (req, res) => {
   try {
+    // Extraer datos de la solicitud
     const { doctorId, date, time, reason, patientId } = req.body;
+    
+    // Registrar intento de creación para auditoría y debugging
     logger.info('Intento de creación de cita', {
       userId: req.user._id,
       doctorId,
@@ -19,8 +52,12 @@ const createAppointment = async (req, res) => {
       patientId
     });
     
-    // Validaciones básicas
+    /**
+     * Validación de campos obligatorios
+     * - Todas las citas requieren doctor, fecha, hora y motivo
+     */
     if (!doctorId || !date || !time || !reason) {
+      // Registrar datos faltantes para diagnosticar problemas de UI o API
       logger.warn('Datos incompletos en creación de cita', {
         userId: req.user._id,
         missing: {
@@ -30,6 +67,8 @@ const createAppointment = async (req, res) => {
           reason: !reason
         }
       });
+      
+      // Respuesta detallada que indica exactamente qué campo falta
       return res.status(400).json({ 
         message: 'Faltan campos requeridos',
         details: {
@@ -41,46 +80,76 @@ const createAppointment = async (req, res) => {
       });
     }
     
-    // Verificar si el usuario es un médico y está intentando crear una cita para otro médico
+    /**
+     * Validación de regla de negocio: un médico solo puede agendar citas para sí mismo
+     * - Previene que un médico cree citas para otros médicos
+     * - Medida de seguridad para mantener control sobre la agenda médica
+     */
     if (req.user.constructor.modelName === 'Doctor' && req.user._id.toString() !== doctorId) {
+      // Registrar intento no autorizado
       logger.warn('Médico intentando agendar cita para otro médico', {
-        doctorId: req.user._id,
-        targetDoctorId: doctorId
+        doctorId: req.user._id, // ID del médico que hace la solicitud
+        targetDoctorId: doctorId // ID del médico para el que intenta crear la cita
       });
+      
+      // Respuesta de error de autorización
       return res.status(403).json({ 
         message: 'Los médicos solo pueden agendar citas para sí mismos',
       });
     }
     
-    // Si es un doctor creando una cita, debe especificar para qué paciente
-    let actualPatientId = req.user._id;
+    /**
+     * Determina el ID del paciente según el rol del usuario autenticado
+     * - Si es paciente: el paciente es el usuario mismo
+     * - Si es médico: debe especificar explícitamente el ID del paciente
+     */
+    let actualPatientId = req.user._id; // Por defecto, el usuario actual (para pacientes)
+    
     if (req.user.constructor.modelName === 'Doctor') {
+      // Médicos deben especificar para qué paciente están creando la cita
       if (!patientId) {
         logger.warn('Doctor intentando crear cita sin especificar paciente', {
           doctorId: req.user._id
         });
+        
         return res.status(400).json({
           message: 'Debe seleccionar un paciente para la cita'
         });
       }
-      actualPatientId = patientId;
+      actualPatientId = patientId; // Usar el paciente especificado por el médico
     }
 
-    // Validar formato de fecha y hora
+    /**
+     * Validación del formato de fecha
+     * - Asegura que la fecha tenga un formato válido
+     * - Previene errores en el procesamiento posterior
+     */
     const dateObj = dayjs(date);
     if (!dateObj.isValid()) {
       logger.warn('Formato de fecha inválido', { date, userId: req.user._id });
       return res.status(400).json({ message: 'Formato de fecha inválido' });
     }
 
+    /**
+     * Validación del formato de hora (HH:MM)
+     * - Utiliza expresión regular para verificar el formato correcto
+     * - Asegura que las horas estén entre 00-23 y minutos entre 00-59
+     */
     if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
       logger.warn('Formato de hora inválido', { time, userId: req.user._id });
       return res.status(400).json({ message: 'Formato de hora inválido. Use HH:mm' });
     }
 
+    /**
+     * Verificación de disponibilidad del médico
+     * - Comprueba que el médico no tenga otra cita a la misma hora
+     * - Verifica que la hora esté dentro del horario de atención del médico
+     * - Utiliza el método estático del modelo Appointment para centralizar esta lógica
+     */
     try {
       await Appointment.checkAvailability(doctorId, date, time);
     } catch (availabilityError) {
+      // Registrar el error específico de disponibilidad
       logger.warn('Error de disponibilidad', {
         error: availabilityError.message,
         userId: req.user._id,
@@ -88,43 +157,66 @@ const createAppointment = async (req, res) => {
         date,
         time
       });
+      
+      // Devolver mensaje detallado sobre el problema de disponibilidad
       return res.status(400).json({ 
         message: 'Error de disponibilidad',
         details: availabilityError.message
       });
     }
 
+    /**
+     * Creación del objeto de cita
+     * - Utiliza los datos validados para crear la instancia
+     * - Elimina espacios extras en el motivo con trim()
+     */
     const appointment = new Appointment({
-      patient: actualPatientId,
-      doctor: doctorId,
-      date,
-      time,
-      reason: reason.trim()
+      patient: actualPatientId, // ID del paciente (el usuario o especificado por médico)
+      doctor: doctorId, // ID del médico seleccionado
+      date, // Fecha validada
+      time, // Hora validada
+      reason: reason.trim() // Motivo de la consulta (eliminando espacios innecesarios)
     });
 
+    // Guardar la cita en la base de datos
     await appointment.save();
+    
+    // Registrar éxito para auditoría
     logger.info('Cita creada exitosamente', {
-      appointmentId: appointment._id,
-      userId: req.user._id,
-      doctorId
+      appointmentId: appointment._id, // ID de la nueva cita
+      userId: req.user._id, // Usuario que la creó
+      doctorId // Médico asignado
     });
 
+    /**
+     * Respuesta exitosa
+     * - Código 201 (Created) para indicar recurso creado
+     * - Incluye mensaje descriptivo
+     * - Devuelve la cita con referencias populadas para uso inmediato en frontend
+     */
     res.status(201).json({
       message: 'Cita agendada exitosamente',
-      appointment: await appointment.populate(['patient', {
-        path: 'doctor',
-        select: 'name email speciality licenseNumber'
-      }])
+      appointment: await appointment.populate([
+        'patient', // Incluir datos completos del paciente
+        {
+          path: 'doctor',
+          select: 'name email speciality licenseNumber' // Datos relevantes del médico
+        }
+      ])
     });
   } catch (error) {
+    // Registrar error detallado para diagnóstico
     logger.error('Error al crear cita', {
       error: error.message,
       userId: req.user._id,
-      stack: error.stack
+      stack: error.stack // Incluir stack trace para debugging
     });
+    
+    // Determinar código de estado según el tipo de error
+    // ValidationError = 400, otros errores = 500
     res.status(error.name === 'ValidationError' ? 400 : 500).json({ 
       message: 'Error al crear la cita', 
-      details: error.message 
+      details: error.message // Detalles específicos para debugging en frontend
     });
   }
 };

@@ -1094,3 +1094,144 @@
 {"duration":"7ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-11T22:38:38.108Z","url":"/api/doctors","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
 {"level":"debug","message":"Usuario autenticado exitosamente","path":"/","role":"patient","timestamp":"2025-05-11T22:38:38.112Z","userId":"681d4bcaf3cd96914d213e59"}
 {"duration":"26ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-11T22:38:38.130Z","url":"/api/appointments?patientId=681d4bcaf3cd96914d213e59","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:42:06.750Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29873247 ms","timestamp":"2025-05-11T22:42:06.753Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:42:06.755Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:42:22.979Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29857018 ms","timestamp":"2025-05-11T22:42:22.982Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:42:22.983Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:42:41.292Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29838707 ms","timestamp":"2025-05-11T22:42:41.293Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:42:41.294Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:43:04.025Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29815973 ms","timestamp":"2025-05-11T22:43:04.027Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:43:04.028Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:43:21.563Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29798436 ms","timestamp":"2025-05-11T22:43:21.564Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:43:21.565Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:43:40.468Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29779529 ms","timestamp":"2025-05-11T22:43:40.471Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:43:40.472Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:43:56.610Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29763388 ms","timestamp":"2025-05-11T22:43:56.613Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:43:56.614Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:44:29.521Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29730475 ms","timestamp":"2025-05-11T22:44:29.525Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:44:29.527Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:44:53.546Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29706446 ms","timestamp":"2025-05-11T22:44:53.555Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:44:53.557Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:45:11.087Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29688910 ms","timestamp":"2025-05-11T22:45:11.090Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:45:11.092Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:45:30.361Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29669636 ms","timestamp":"2025-05-11T22:45:30.365Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:45:30.366Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:45:55.104Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29644893 ms","timestamp":"2025-05-11T22:45:55.108Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:45:55.110Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:46:36.835Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29603163 ms","timestamp":"2025-05-11T22:46:36.838Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:46:36.839Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:52:29.353Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29250644 ms","timestamp":"2025-05-11T22:52:29.356Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:52:29.357Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:53:01.253Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29218741 ms","timestamp":"2025-05-11T22:53:01.260Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:53:01.261Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:53:31.266Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29188728 ms","timestamp":"2025-05-11T22:53:31.272Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:53:31.274Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:54:00.145Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29159851 ms","timestamp":"2025-05-11T22:54:00.149Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:54:00.153Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:54:31.743Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 29128254 ms","timestamp":"2025-05-11T22:54:31.746Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:54:31.749Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:57:05.606Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 28974391 ms","timestamp":"2025-05-11T22:57:05.609Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:57:05.610Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T22:59:42.903Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 28817095 ms","timestamp":"2025-05-11T22:59:42.905Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T22:59:42.906Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:03:46.609Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 28573389 ms","timestamp":"2025-05-11T23:03:46.611Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:03:46.612Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:05:23.626Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 28476373 ms","timestamp":"2025-05-11T23:05:23.627Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:05:23.627Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:08:45.571Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 28274428 ms","timestamp":"2025-05-11T23:08:45.572Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:08:45.573Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:12:50.405Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 28029594 ms","timestamp":"2025-05-11T23:12:50.406Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:12:50.407Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:13:30.955Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27989044 ms","timestamp":"2025-05-11T23:13:30.956Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:13:30.957Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:15:57.378Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27842620 ms","timestamp":"2025-05-11T23:15:57.380Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:15:57.381Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:17:25.763Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27754235 ms","timestamp":"2025-05-11T23:17:25.765Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:17:25.766Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:21:23.642Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27516357 ms","timestamp":"2025-05-11T23:21:23.643Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:21:23.644Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:22:08.527Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27471472 ms","timestamp":"2025-05-11T23:22:08.528Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:22:08.529Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:23:08.310Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27411688 ms","timestamp":"2025-05-11T23:23:08.312Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:23:08.313Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:26:35.395Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 27204604 ms","timestamp":"2025-05-11T23:26:35.396Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:26:35.397Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:33:19.349Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 26800649 ms","timestamp":"2025-05-11T23:33:19.352Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:33:19.352Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:35:37.550Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 26662449 ms","timestamp":"2025-05-11T23:35:37.551Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:35:37.552Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:36:53.232Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 26586766 ms","timestamp":"2025-05-11T23:36:53.234Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:36:53.235Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:38:02.069Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 26517928 ms","timestamp":"2025-05-11T23:38:02.072Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:38:02.074Z"}
+{"database":"medical_appointments","level":"info","message":"Conectado exitosamente a MongoDB","timestamp":"2025-05-11T23:39:01.187Z"}
+{"level":"info","message":"Programador de actualización de estados de citas iniciado. Primera ejecución en 26458812 ms","timestamp":"2025-05-11T23:39:01.188Z"}
+{"level":"info","message":"Inicializado el programador de actualización de estados de citas","timestamp":"2025-05-11T23:39:01.189Z"}
+{"duration":"146ms","ip":"::1","level":"info","message":"HTTP Request","method":"POST","status":200,"timestamp":"2025-05-12T00:09:50.857Z","url":"/api/login","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"duration":"15ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:09:50.950Z","url":"/api/doctors","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/","timestamp":"2025-05-12T00:09:50.953Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"33ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:09:50.974Z","url":"/api/appointments?doctorId=681d4fd3f3cd96914d213e64","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"headers":{"auth":"presente","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"},"ip":"::1","level":"info","message":"Solicitud interceptada en /api/users/current","method":"GET","query":{},"timestamp":"2025-05-12T00:09:52.540Z"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/current","timestamp":"2025-05-12T00:09:52.547Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"16ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":200,"timestamp":"2025-05-12T00:09:52.551Z","url":"/api/users/current","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"headers":{"auth":"presente","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"},"ip":"::1","level":"info","message":"Solicitud interceptada en /api/users/current","method":"GET","query":{},"timestamp":"2025-05-12T00:09:52.554Z"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/current","timestamp":"2025-05-12T00:09:52.562Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"16ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:09:52.569Z","url":"/api/users/current","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"headers":{"auth":"presente","cacheControl":"no-cache"},"ip":"::1","level":"info","message":"Solicitud interceptada en /api/appointments/archived","method":"GET","query":{},"timestamp":"2025-05-12T00:09:52.588Z"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/archived","timestamp":"2025-05-12T00:09:52.594Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"23ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":200,"timestamp":"2025-05-12T00:09:52.611Z","url":"/api/appointments/archived","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"headers":{"auth":"presente","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"},"ip":"::1","level":"info","message":"Solicitud interceptada en /api/users/current","method":"GET","query":{},"timestamp":"2025-05-12T00:09:54.246Z"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/current","timestamp":"2025-05-12T00:09:54.251Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"10ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:09:54.255Z","url":"/api/users/current","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"headers":{"auth":"presente","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"},"ip":"::1","level":"info","message":"Solicitud interceptada en /api/users/current","method":"GET","query":{},"timestamp":"2025-05-12T00:09:54.260Z"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/current","timestamp":"2025-05-12T00:09:54.266Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"13ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:09:54.271Z","url":"/api/users/current","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"duration":"9ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:09:54.303Z","url":"/api/doctors","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/","timestamp":"2025-05-12T00:09:54.306Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"14ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":200,"timestamp":"2025-05-12T00:09:54.311Z","url":"/api/appointments?patientId=681d4fd3f3cd96914d213e64","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"duration":"329ms","ip":"::1","level":"info","message":"HTTP Request","method":"POST","status":200,"timestamp":"2025-05-12T00:10:08.412Z","url":"/api/login","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/","timestamp":"2025-05-12T00:10:08.578Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"34ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:10:08.592Z","url":"/api/appointments?doctorId=681d4fd3f3cd96914d213e64","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/","timestamp":"2025-05-12T00:10:09.913Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"11ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":304,"timestamp":"2025-05-12T00:10:09.917Z","url":"/api/users?role=patient","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/","timestamp":"2025-05-12T00:10:21.633Z","userId":"681d4fd3f3cd96914d213e64"}
+{"date":"2025-05-20","doctorId":"681d4fd3f3cd96914d213e64","level":"info","message":"Intento de creación de cita","patientId":"682107038605ca87ce947a58","time":"11:30","timestamp":"2025-05-12T00:10:21.634Z","userId":"681d4fd3f3cd96914d213e64"}
+{"appointmentId":"68213c6d4d884c95a1ff59ea","doctorId":"681d4fd3f3cd96914d213e64","level":"info","message":"Cita creada exitosamente","timestamp":"2025-05-12T00:10:21.662Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"38ms","ip":"::1","level":"info","message":"HTTP Request","method":"POST","status":201,"timestamp":"2025-05-12T00:10:21.666Z","url":"/api/appointments","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}
+{"level":"debug","message":"Usuario autenticado exitosamente","path":"/","timestamp":"2025-05-12T00:10:21.673Z","userId":"681d4fd3f3cd96914d213e64"}
+{"duration":"11ms","ip":"::1","level":"info","message":"HTTP Request","method":"GET","status":200,"timestamp":"2025-05-12T00:10:21.681Z","url":"/api/appointments?doctorId=681d4fd3f3cd96914d213e64","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"}

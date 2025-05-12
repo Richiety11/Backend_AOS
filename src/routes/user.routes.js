@@ -1,3 +1,13 @@
+/**
+ * @file user.routes.js
+ * @description Define las rutas de API relacionadas con la gestión de usuarios (pacientes).
+ * Incluye endpoints para listar usuarios, obtener detalles de usuario específico,
+ * actualizar información de usuario y eliminar usuarios. Implementa controles de acceso
+ * basados en roles y proporciona documentación Swagger para cada endpoint.
+ * @author Equipo de Desarrollo
+ * @version 1.0.0
+ */
+
 const express = require('express');
 const router = express.Router();
 const { auth, checkRole } = require('../middlewares/auth.middleware');
@@ -35,7 +45,7 @@ const User = require('../models/user.model');
  *                   role:
  *                     type: string
  */
-// Primero definimos las rutas específicas
+
 /**
  * @swagger
  * /users/current:
@@ -92,7 +102,11 @@ router.get('/current', auth, async (req, res) => {
   }
 });
 
-// Luego definimos la ruta para obtener todos los usuarios
+/**
+ * @route GET /users
+ * @description Obtiene un listado de usuarios con filtrado opcional por rol
+ * @access Privado - Requiere autenticación
+ */
 router.get('/', auth, getUsers);
 
 /**

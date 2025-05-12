@@ -1,3 +1,12 @@
+/**
+ * @file auth.routes.js
+ * @description Define las rutas de API relacionadas con la autenticación y gestión de tokens.
+ * Incluye endpoints para registro de usuarios, inicio de sesión, obtención de perfil 
+ * y renovación de tokens de acceso. Incorpora documentación Swagger para cada endpoint.
+ * @author Equipo de Desarrollo
+ * @version 1.0.0
+ */
+
 const express = require('express');
 const router = express.Router();
 const { auth } = require('../middlewares/auth.middleware');
