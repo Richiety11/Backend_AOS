@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: medical-appointments-api
-  namespace: default
+  namespace: medical-system
 spec:
   replicas: 3
   selector:
@@ -15,10 +15,13 @@ spec:
     spec:
       containers:
       - name: medical-appointments-api
-        image: medical-appointments-api:latest
+        image: ${YOUR_DOCKER_USERNAME}/backend:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: backend-config
         env:
         - name: MONGODB_URI
           valueFrom:

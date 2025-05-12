@@ -2,6 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: medical-appointments-api-hpa
+  namespace: medical-system
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
